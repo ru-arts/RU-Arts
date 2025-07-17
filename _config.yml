@@ -1,7 +1,7 @@
 title: RU Arts
 description: Handmade eco-friendly fabric products with beautiful hand-painted designs
 baseurl: "/RU-Arts" # the subpath of your site, e.g. /blog
-url: "https://ru-arts.github.io/RU-Arts/" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://ru-arts.github.io/RU-Arts" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Build settings
 markdown: kramdown
