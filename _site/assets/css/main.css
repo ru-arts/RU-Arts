@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+  
+  body {
+    @apply text-gray-800 bg-gray-50;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  .container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .nav-link {
+    @apply text-gray-600 hover:text-accent-600 transition-colors duration-200;
+  }
+  
+  .nav-link-active {
+    @apply text-accent-600 font-medium;
+  }
+  
+  .btn {
+    @apply inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-accent-600 hover:bg-accent-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 transition-colors duration-200;
+  }
+  
+  .btn-outline {
+    @apply inline-flex items-center px-4 py-2 border border-accent-600 text-sm font-medium rounded-md text-accent-600 bg-white hover:bg-accent-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 transition-colors duration-200;
+  }
+  
+  .card {
+    @apply bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-200 hover:shadow-lg hover:-translate-y-1;
+  }
+  
+  .product-card {
+    @apply card;
+  }
+  
+  .product-image {
+    @apply w-full h-64 object-cover;
+  }
+  
+  .product-info {
+    @apply p-4;
+  }
+  
+  .product-title {
+    @apply text-lg font-semibold text-gray-900 mb-2;
+  }
+  
+  .product-price {
+    @apply text-accent-600 font-medium;
+  }
+  
+  .product-description {
+    @apply text-gray-600 text-sm mt-2;
+  }
+  
+  .section {
+    @apply py-12 md:py-16;
+  }
+  
+  .section-title {
+    @apply text-3xl md:text-4xl font-display font-bold text-gray-900 mb-8 text-center;
+  }
+  
+  .section-subtitle {
+    @apply text-xl text-gray-600 mb-12 text-center max-w-3xl mx-auto;
+  }
+}
+
+/* Custom Fonts */
+.font-display {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-handwriting {
+  font-family: 'Dancing Script', cursive;
+}
+
+/* Custom Colors */
+:root {
+  --color-accent-50: #fdf2f8;
+  --color-accent-100: #fce7f3;
+  --color-accent-200: #fbcfe8;
+  --color-accent-300: #f9a8d4;
+  --color-accent-400: #f472b6;
+  --color-accent-500: #ec4899;
+  --color-accent-600: #db2777;
+  --color-accent-700: #be185d;
+  --color-accent-800: #9d174d;
+  --color-accent-900: #831843;
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+} 

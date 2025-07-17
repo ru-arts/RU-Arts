@@ -1,0 +1,186 @@
+---
+layout: default
+title: Products
+description: Explore our collection of hand-painted eco-friendly fabric products
+---
+
+<style>
+.product-modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-modal-content {
+    position: relative;
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    width: 90%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.product-modal-content img {
+    max-width: 100%;
+    max-height: 60vh;
+    object-fit: contain;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.product-modal-content h3 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.product-modal-content p {
+    font-size: 1rem;
+    margin-bottom: 8px;
+}
+
+.modal-buttons {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.modal-buttons a {
+    padding: 12px 24px;
+    font-size: 1rem;
+    border-radius: 5px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.buy-now {
+    background-color: #25D366;
+}
+
+.buy-now:hover {
+    background-color: #1ebe58;
+}
+
+.messenger {
+    background-color: #0084FF;
+}
+
+.messenger:hover {
+    background-color: #006fd4;
+}
+
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #555;
+    cursor: pointer;
+}
+
+.close-button:hover {
+    color: red;
+}
+</style>
+
+<div class="section bg-gray-50" x-data="{ selectedCategory: 'all', showModal: false, modalProduct: {} }">
+    <div class="container">
+        <h1 class="section-title">Our Products</h1>
+        <p class="section-subtitle">Discover our collection of hand-painted eco-friendly fabric products, each piece crafted with love and attention to detail.</p>
+
+        <!-- Category Filter -->
+        <div class="mb-8">
+            <div class="flex flex-wrap justify-center gap-4">
+                <button 
+                    @click="selectedCategory = 'all'"
+                    :class="selectedCategory === 'all' ? 'bg-accent-600 text-white' : 'bg-white text-gray-600 hover:bg-accent-50'"
+                    class="px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200">
+                    All Products
+                </button>
+                {% assign categories = site.data.products | map: "category" | uniq %}
+                {% for category in categories %}
+                <button 
+                    @click="selectedCategory = '{{ category | slugify }}'"
+                    :class="selectedCategory === '{{ category | slugify }}' ? 'bg-accent-600 text-white' : 'bg-white text-gray-600 hover:bg-accent-50'"
+                    class="px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200">
+                    {{ category }}
+                </button>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for product in site.data.products %}
+            <div 
+                class="product-card rounded-lg shadow hover:shadow-lg transition p-4 bg-white cursor-pointer" 
+                data-category="{{ product.category | slugify }}" 
+                x-show="selectedCategory === 'all' || selectedCategory === '{{ product.category | slugify }}'"
+            >
+                <div @click="showModal = true; modalProduct = { image: '{{ product.image | relative_url }}', name: '{{ product.name }}', description: '{{ product.description }}', price: '{{ product.price }}', id: '{{ product.id }}' }">
+                    <div class="relative">
+                        <img src="{{ product.image | relative_url }}" alt="{{ product.name }}" class="rounded-lg object-cover w-full h-64">
+                        <div class="absolute top-4 right-4">
+                            <span class="bg-white px-3 py-1 rounded-full text-sm font-medium text-accent-600 shadow">
+                                {{ product.category }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="product-info mt-4">
+                        <h3 class="product-title text-xl font-semibold text-gray-800">{{ product.name }}</h3>
+                        <p class="product-price text-sm text-gray-500"><del>Rs. {{ product.price | times: 150 | divided_by: 100 }}</del></p>
+                        <p class="product-price text-lg text-accent-600 font-bold">Rs. {{ product.price}}</p>
+                        <p class="product-id text-sm text-gray-500">Product ID: {{ product.id }}</p>
+                        <p class="product-description text-sm text-gray-700">{{ product.description }}</p>
+                    </div>
+                    <div class="modal-buttons">
+                        <a :href="'https://wa.me/94701715047?text=I\'m%20interested%20in%20the%20' + encodeURIComponent(modalProduct.name) + '%20from%20RU%20Arts'" 
+                           target="_blank" class="buy-now">Buy Now (WhatsApp)</a>
+                        
+                        <a href="https://www.facebook.com/profile.php?id=61577736205390" 
+                           target="_blank" class="messenger">Messenger</a>
+                    </div>
+                    <br>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Fullscreen Modal -->
+        <div 
+            x-show="showModal" 
+            x-transition 
+            class="product-modal-overlay" 
+            x-cloak>
+            <div class="product-modal-content">
+                <span class="close-button" @click="showModal = false">&times;</span>
+                <img :src="modalProduct.image" :alt="modalProduct.name">
+                <h3 x-text="modalProduct.name"></h3>
+                <p><strong>Price:</strong> Rs. <span x-text="modalProduct.price"></span></p>
+                <p><strong>Product ID:</strong> <span x-text="modalProduct.id"></span></p>
+                <p x-text="modalProduct.description"></p>
+
+                <div class="modal-buttons">
+                    <a :href="'https://wa.me/94701715047?text=I\'m%20interested%20in%20the%20' + encodeURIComponent(modalProduct.name) + '%20from%20RU%20Arts'" 
+                       target="_blank" class="buy-now">Buy Now (WhatsApp)</a>
+                    
+                    <a href="https://www.facebook.com/profile.php?id=61577736205390" 
+                       target="_blank" class="messenger">Messenger</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
