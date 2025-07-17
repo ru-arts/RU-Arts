@@ -1,0 +1,44 @@
+title: RU Arts
+description: Handmade eco-friendly fabric products with beautiful hand-painted designs
+baseurl: "/RU-Arts" # the subpath of your site, e.g. /blog
+url: "https://dhananjayabandara.github.io/RU-Arts" # the base hostname & protocol for your site, e.g. http://example.com
+
+# Build settings
+markdown: kramdown
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Collections
+collections:
+  products:
+    output: true
+    permalink: /products/:title/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "products"
+    values:
+      layout: "product"
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .gitignore
+  - README.md
+
+# TailwindCSS
+tailwind:
+  purge:
+    - _includes/**/*.html
+    - _layouts/**/*.html
+    - _pages/**/*.html
+    - _posts/**/*.html
+    - _products/**/*.html
+    - assets/js/**/*.js 
